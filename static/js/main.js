@@ -17,8 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingElement.classList.remove('d-none');
         errorMessage.classList.add('d-none');
         
+        // Direct API call to TheCatAPI to bypass CloudFront caching issues
         const timestamp = new Date().getTime();
-        fetch(`/api/cats?_=${timestamp}`)
+        const apiUrl = 'https://api.thecatapi.com/v1/images/search?limit=9&_=' + timestamp;
+        
+        fetch(apiUrl)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
