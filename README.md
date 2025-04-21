@@ -31,14 +31,20 @@ To deploy your own version:
 3. Create environment: `eb create cat-gallery-env --cname cat-gallery --instance-type t2.micro --single`
 4. Deploy updates: `eb deploy`
 
-#### HTTPS Configuration
-Before deploying, you need to:
-1. Create an SSL certificate in AWS Certificate Manager (ACM)
-2. Replace the placeholder certificate ARN in `.ebextensions/03_securelistener.config` and `.ebextensions/04_alb-secure-listener.config` with your actual certificate ARN
+#### CloudFront and HTTPS Configuration
+The application includes CloudFront integration that automatically:
+- Creates a CloudFront distribution pointing to your Elastic Beanstalk environment
+- Uses the AWS default CloudFront certificate for HTTPS support
+- Redirects HTTP requests to HTTPS for improved security
 
 Once deployed, your application will be accessible via:
 - Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com
 - CloudFront HTTPS URL: https://[generated-id].cloudfront.net (will be shown in AWS CloudFront console)
+
+To find your CloudFront URL:
+1. Go to the AWS CloudFront console
+2. Look for the distribution with your Elastic Beanstalk domain as the origin
+3. Use the "Distribution Domain Name" shown in the console
 
 ### Render.com Alternative
 This application can also be deployed on Render.com:
