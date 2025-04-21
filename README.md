@@ -21,15 +21,24 @@ Then open your browser to http://localhost:8080
 
 ## Deployment
 
-### AWS Elastic Beanstalk
-This application is deployed on AWS Elastic Beanstalk at:
-http://cat-gallery.us-east-1.elasticbeanstalk.com
+### AWS Elastic Beanstalk with CloudFront and HTTPS
+This application is deployed on AWS Elastic Beanstalk with CloudFront for HTTPS support at:
+https://[cloudfront-distribution-id].cloudfront.net
 
 To deploy your own version:
 1. Install the EB CLI: `pip install awsebcli`
 2. Initialize EB: `eb init cat-gallery --platform "Python 3.9" --region us-east-1`
 3. Create environment: `eb create cat-gallery-env --cname cat-gallery --instance-type t2.micro --single`
 4. Deploy updates: `eb deploy`
+
+#### HTTPS Configuration
+Before deploying, you need to:
+1. Create an SSL certificate in AWS Certificate Manager (ACM)
+2. Replace the placeholder certificate ARN in `.ebextensions/03_securelistener.config` and `.ebextensions/04_alb-secure-listener.config` with your actual certificate ARN
+
+Once deployed, your application will be accessible via:
+- Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com
+- CloudFront HTTPS URL: https://[generated-id].cloudfront.net (will be shown in AWS CloudFront console)
 
 ### Render.com Alternative
 This application can also be deployed on Render.com:
