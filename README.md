@@ -21,9 +21,9 @@ Then open your browser to http://localhost:8080
 
 ## Deployment
 
-### AWS Elastic Beanstalk with CloudFront and HTTPS
+### AWS Elastic Beanstalk with CloudFront, Custom Domain, and HTTPS
 This application is deployed on AWS Elastic Beanstalk with CloudFront for HTTPS support at:
-https://[cloudfront-distribution-id].cloudfront.net
+https://jpilier.people.aws.dev
 
 To deploy your own version:
 1. Install the EB CLI: `pip install awsebcli`
@@ -31,20 +31,21 @@ To deploy your own version:
 3. Create environment: `eb create cat-gallery-env --cname cat-gallery --instance-type t2.micro --single`
 4. Deploy updates: `eb deploy`
 
-#### CloudFront and HTTPS Configuration
-The application includes CloudFront integration that automatically:
+#### CloudFront, Custom Domain, and HTTPS Configuration
+The application includes CloudFront integration with a custom domain that automatically:
 - Creates a CloudFront distribution pointing to your Elastic Beanstalk environment
-- Uses the AWS default CloudFront certificate for HTTPS support
+- Uses an ACM certificate for HTTPS support on your custom domain
 - Redirects HTTP requests to HTTPS for improved security
+- Creates a Route 53 A record (jpilier.people.aws.dev) pointing to the CloudFront distribution
 
 Once deployed, your application will be accessible via:
-- Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com
-- CloudFront HTTPS URL: https://[generated-id].cloudfront.net (will be shown in AWS CloudFront console)
+- Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com (backend)
+- Custom Domain with HTTPS: https://jpilier.people.aws.dev (recommended for users)
 
-To find your CloudFront URL:
-1. Go to the AWS CloudFront console
-2. Look for the distribution with your Elastic Beanstalk domain as the origin
-3. Use the "Distribution Domain Name" shown in the console
+The deployment leverages:
+- AWS Certificate Manager (ACM) for the SSL/TLS certificate
+- CloudFront for CDN functionality and TLS termination
+- Route 53 for custom domain name DNS configuration
 
 ### Render.com Alternative
 This application can also be deployed on Render.com:
