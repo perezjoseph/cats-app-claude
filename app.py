@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify
 import requests
 import os
+import time
 from dotenv import load_dotenv
 
 # Load environment variables
@@ -25,9 +26,16 @@ def get_cats():
         headers["x-api-key"] = CAT_API_KEY
     
     try:
-        response = requests.get(f"{CAT_API_URL}?limit=9", headers=headers)
+        # Add a random parameter to prevent CloudFront caching
+        timestamp = int(time.time())
+        response = requests.get(f"{CAT_API_URL}?limit=9&timestamp={timestamp}", headers=headers)
         if response.status_code == 200:
-            return jsonify(response.json())
+            resp = jsonify(response.json())
+            # Set cache control headers to prevent caching
+            resp.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+            resp.headers['Pragma'] = 'no-cache'
+            resp.headers['Expires'] = '0'
+            return resp
         else:
             return jsonify({"error": "Failed to fetch cat images"}), 500
     except Exception as e:

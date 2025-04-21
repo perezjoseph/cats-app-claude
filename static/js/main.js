@@ -17,7 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadingElement.classList.remove('d-none');
         errorMessage.classList.add('d-none');
         
-        fetch('/api/cats')
+        const timestamp = new Date().getTime();
+        fetch(`/api/cats?_=${timestamp}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
