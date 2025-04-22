@@ -1,12 +1,17 @@
 branch-defaults:
+  fix-caching:
+    environment: cat-gallery-env
   main:
+    environment: cat-gallery-env
+    group_suffix: null
+  nodejs-bedrock-memes:
     environment: cat-gallery-env
     group_suffix: null
 global:
   application_name: cat-gallery
   branch: null
   default_ec2_keyname: null
-  default_platform: Python 3.9
+  default_platform: Node.js 18
   default_region: us-east-1
   include_git_submodules: true
   instance_profile: null
