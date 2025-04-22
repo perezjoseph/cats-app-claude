@@ -1,63 +1,83 @@
-# Cat Gallery Flask App
+# Cat Gallery & Memes - Node.js Application
 
-A simple Flask application that displays cat images from TheCatAPI.
+A Node.js application that displays cat images and AI-generated memes using AWS Bedrock.
+
+## Features
+
+- Responsive gallery of cat images
+- AI-generated meme captions using AWS Bedrock and Anthropic Claude
+- Dynamic loading and rendering of content
+- Mobile-friendly design
 
 ## Setup
 
 1. Clone this repository
 2. Install dependencies:
    ```
-   pip install -r requirements.txt
+   npm install
    ```
-3. (Optional) Create a `.env` file based on `.env.example` and add your TheCatAPI key if you have one
+3. Create a `.env` file based on `.env.example` and add your API keys:
+   ```
+   CAT_API_KEY=your_cat_api_key_here
+   AWS_REGION=us-east-1
+   AWS_ACCESS_KEY_ID=your_access_key_id
+   AWS_SECRET_ACCESS_KEY=your_secret_access_key
+   BEDROCK_MODEL_ID=anthropic.claude-v2
+   ```
 
 ## Running Locally
 
 ```
-python app.py
+npm start
+```
+
+For development with hot reloading:
+```
+npm run dev
 ```
 
 Then open your browser to http://localhost:8080
 
-## Deployment
+## AWS Bedrock Integration
 
-### AWS Elastic Beanstalk with CloudFront, Custom Domain, and HTTPS
-This application is deployed on AWS Elastic Beanstalk with CloudFront for HTTPS support at:
-https://jpilier.people.aws.dev
+This application uses AWS Bedrock to generate cat meme captions with Anthropic Claude. To use this feature:
 
-To deploy your own version:
-1. Install the EB CLI: `pip install awsebcli`
-2. Initialize EB: `eb init cat-gallery --platform "Python 3.9" --region us-east-1`
+1. Set up an AWS account and enable access to Bedrock
+2. Create IAM credentials with Bedrock access
+3. Add your AWS credentials to the `.env` file
+
+## Deployment on AWS Elastic Beanstalk
+
+To deploy to AWS Elastic Beanstalk:
+
+1. Install the EB CLI: `npm install -g aws-elastic-beanstalk`
+2. Initialize EB: `eb init cat-gallery --platform "Node.js 16" --region us-east-1`
 3. Create environment: `eb create cat-gallery-env --cname cat-gallery --instance-type t2.micro --single`
 4. Deploy updates: `eb deploy`
 
-#### CloudFront, Custom Domain, and HTTPS Configuration
-The application includes CloudFront integration with a custom domain that automatically:
-- Creates a CloudFront distribution pointing to your Elastic Beanstalk environment
-- Uses an ACM certificate for HTTPS support on your custom domain
-- Redirects HTTP requests to HTTPS for improved security
-- Creates a Route 53 A record (jpilier.people.aws.dev) pointing to the CloudFront distribution
+### Elastic Beanstalk Environment Configuration
 
-Once deployed, your application will be accessible via:
-- Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com (backend)
-- Custom Domain with HTTPS: https://jpilier.people.aws.dev (recommended for users)
+Configure environment variables in the Elastic Beanstalk console:
 
-The deployment leverages:
-- AWS Certificate Manager (ACM) for the SSL/TLS certificate
-- CloudFront for CDN functionality and TLS termination
-- Route 53 for custom domain name DNS configuration
+1. Go to Configuration > Software
+2. Add environment properties:
+   - CAT_API_KEY
+   - AWS_REGION
+   - BEDROCK_MODEL_ID
 
-### Render.com Alternative
-This application can also be deployed on Render.com:
+NOTE: For AWS credentials, set up an IAM role for your Elastic Beanstalk environment instead of using environment variables.
 
-1. Create a new Web Service on Render
-2. Connect your GitHub repository
-3. Use the following settings:
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `gunicorn application:application`
+## CloudFront Integration
 
-## Features
+You can enhance your deployment with CloudFront:
 
-- Displays a responsive gallery of cat images
-- Click "Load New Cats" to refresh the gallery with new images
-- Mobile-friendly design
+- Create a CloudFront distribution pointing to your Elastic Beanstalk environment
+- Use an ACM certificate for HTTPS support
+- Configure Route 53 for a custom domain name
+
+## Technology Stack
+
+- Node.js & Express.js
+- AWS Bedrock for AI-generated meme captions
+- Bootstrap for responsive UI
+- Axios for HTTP requests

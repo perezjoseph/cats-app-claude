@@ -1,13 +1,12 @@
 {
   "version": 2,
   "builds": [
-    {
-      "src": "application.py",
-      "use": "@vercel/python"
-    }
+    { "src": "app.js", "use": "@vercel/node" },
+    { "src": "static/**", "use": "@vercel/static" }
   ],
   "routes": [
     { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "application.py" }
+    { "src": "/static/(.*)", "dest": "/static/$1" },
+    { "src": "/(.*)", "dest": "/app.js" }
   ]
 }

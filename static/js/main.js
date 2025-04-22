@@ -3,6 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingElement = document.getElementById('loading');
     const errorMessage = document.getElementById('error-message');
     const refreshButton = document.getElementById('refresh-btn');
+    const memeButton = document.getElementById('meme-btn');
+    const memeSection = document.getElementById('meme-section');
+    const memeImg = document.getElementById('meme-img');
+    const memeCaption = document.getElementById('meme-caption');
     const template = document.getElementById('cat-card-template');
     
     // Load cats when page loads
@@ -11,15 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load cats when refresh button is clicked
     refreshButton.addEventListener('click', loadCats);
     
+    // Generate meme when meme button is clicked
+    memeButton.addEventListener('click', generateMeme);
+    
     function loadCats() {
         // Show loading spinner
         gallery.innerHTML = '';
         loadingElement.classList.remove('d-none');
         errorMessage.classList.add('d-none');
         
-        // Direct API call to TheCatAPI to bypass CloudFront caching issues
+        // API call to get cat images
         const timestamp = new Date().getTime();
-        const apiUrl = 'https://api.thecatapi.com/v1/images/search?limit=9&_=' + timestamp;
+        const apiUrl = '/api/cats?_=' + timestamp;
         
         fetch(apiUrl)
             .then(response => {
@@ -36,6 +43,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Error fetching cats:', error);
                 loadingElement.classList.add('d-none');
                 errorMessage.classList.remove('d-none');
+            });
+    }
+    
+    function generateMeme() {
+        // Show loading spinner
+        memeSection.classList.add('d-none');
+        loadingElement.classList.remove('d-none');
+        errorMessage.classList.add('d-none');
+        
+        // API call to generate meme
+        fetch('/api/meme')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Update meme section
+                memeImg.src = data.image.url;
+                memeCaption.textContent = data.caption;
+                
+                // Show meme section
+                memeSection.classList.remove('d-none');
+                loadingElement.classList.add('d-none');
+                
+                // Scroll to meme section
+                memeSection.scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(error => {
+                console.error('Error generating meme:', error);
+                loadingElement.classList.add('d-none');
+                errorMessage.classList.remove('d-none');
+                errorMessage.textContent = 'Failed to generate meme. Please try again later.';
             });
     }
     

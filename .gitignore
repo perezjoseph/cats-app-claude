@@ -1,7 +1,32 @@
+# Environment variables
+.env
+
+# Dependency directories
+node_modules/
 venv/
 __pycache__/
 *.pyc
-.env
-.vercel
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS specific
 .DS_Store
+Thumbs.db
+
+# IDE files
 .idea/
+.vscode/
+*.code-workspace
+
+# Deployment
+.vercel/
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
