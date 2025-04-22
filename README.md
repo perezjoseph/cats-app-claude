@@ -1,60 +1,52 @@
-# Cat Gallery Flask App
+# Cat Gallery PHP App
 
-A simple Flask application that displays cat images from TheCatAPI.
+A simple PHP application that displays cat images from TheCatAPI.
 
 ## Setup
 
 1. Clone this repository
-2. Install dependencies:
+2. (Optional) Create a `.env` file and add your TheCatAPI key if you have one:
    ```
-   pip install -r requirements.txt
+   CAT_API_KEY=your_api_key_here
    ```
-3. (Optional) Create a `.env` file based on `.env.example` and add your TheCatAPI key if you have one
 
 ## Running Locally
 
 ```
-python app.py
+php -S localhost:8080
 ```
 
 Then open your browser to http://localhost:8080
 
 ## Deployment
 
-### AWS Elastic Beanstalk with CloudFront, Custom Domain, and HTTPS
-This application is deployed on AWS Elastic Beanstalk with CloudFront for HTTPS support at:
-https://jpilier.people.aws.dev
+### AWS Elastic Beanstalk with CloudFront
 
 To deploy your own version:
-1. Install the EB CLI: `pip install awsebcli`
-2. Initialize EB: `eb init cat-gallery --platform "Python 3.9" --region us-east-1`
+1. Use a PHP platform on Elastic Beanstalk
+2. Initialize EB: `eb init cat-gallery --platform "PHP 8.0" --region us-east-1`
 3. Create environment: `eb create cat-gallery-env --cname cat-gallery --instance-type t2.micro --single`
 4. Deploy updates: `eb deploy`
 
-#### CloudFront, Custom Domain, and HTTPS Configuration
-The application includes CloudFront integration with a custom domain that automatically:
-- Creates a CloudFront distribution pointing to your Elastic Beanstalk environment
-- Uses an ACM certificate for HTTPS support on your custom domain
-- Redirects HTTP requests to HTTPS for improved security
-- Creates a Route 53 A record (jpilier.people.aws.dev) pointing to the CloudFront distribution
+#### CloudFront Configuration
+You can use CloudFront with your PHP application:
+- Create a CloudFront distribution pointing to your Elastic Beanstalk environment
+- Use an ACM certificate for HTTPS support
+- Configure Route 53 for a custom domain name
 
-Once deployed, your application will be accessible via:
-- Elastic Beanstalk URL: http://cat-gallery.us-east-1.elasticbeanstalk.com (backend)
-- Custom Domain with HTTPS: https://jpilier.people.aws.dev (recommended for users)
+### Vercel Deployment
+This application can be deployed on Vercel:
 
-The deployment leverages:
-- AWS Certificate Manager (ACM) for the SSL/TLS certificate
-- CloudFront for CDN functionality and TLS termination
-- Route 53 for custom domain name DNS configuration
+1. Create a Vercel account and install the Vercel CLI
+2. Run `vercel` in the project directory
+3. The included `vercel.json` file has the necessary configuration for PHP deployment
 
-### Render.com Alternative
-This application can also be deployed on Render.com:
+### Traditional PHP Hosting
+You can deploy to any PHP hosting service:
 
-1. Create a new Web Service on Render
-2. Connect your GitHub repository
-3. Use the following settings:
-   - Build Command: `pip install -r requirements.txt`
-   - Start Command: `gunicorn application:application`
+1. Upload the files to your hosting provider
+2. Ensure the server has PHP 7.4+ and the curl extension
+3. Make sure the `.htaccess` file is properly configured for URL rewriting
 
 ## Features
 

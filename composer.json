@@ -1,0 +1,15 @@
+{
+    "name": "jpilier/cat-gallery",
+    "description": "A PHP application displaying cat images",
+    "type": "project",
+    "require": {
+        "php": ">=7.4",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
