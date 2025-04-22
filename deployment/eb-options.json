@@ -1,0 +1,37 @@
+[
+  {
+    "Namespace": "aws:autoscaling:launchconfiguration",
+    "OptionName": "InstanceType",
+    "Value": "t2.micro"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:environment",
+    "OptionName": "EnvironmentType",
+    "Value": "SingleInstance"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:container:nodejs",
+    "OptionName": "NodeVersion",
+    "Value": "18.x"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:application:environment",
+    "OptionName": "AWS_REGION",
+    "Value": "us-east-1"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:application:environment",
+    "OptionName": "BEDROCK_MODEL_ID",
+    "Value": "anthropic.claude-v2"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:environment:proxy",
+    "OptionName": "ProxyServer",
+    "Value": "nginx"
+  },
+  {
+    "Namespace": "aws:elasticbeanstalk:environment:proxy:staticfiles",
+    "OptionName": "/static",
+    "Value": "/static"
+  }
+]
